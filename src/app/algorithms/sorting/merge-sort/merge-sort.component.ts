@@ -9,22 +9,48 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MergeSortComponent implements OnInit {
   ngOnInit(): void {
-    this.sort();
+    const numbers: number[] = [15, 234, 2, 0, 23, 76, 45, 21];
+    this.sort(numbers);
   }
 
-  sort() {
-    let numbers: number[] = [15, 234, 2, 0, 23, 76, 45, 21];
+  sort(numbers: number[]) {
+    let states: TransitionState[] = [];
+
     for (let i = 1; i < numbers.length; i++) {
-      let temp: number = numbers[i];
+      const temp: number = numbers[i];
       let j = i;
-
-      while (numbers[j - 1] > temp) {
-        numbers[j] = numbers[j - 1];
-        j--;
+      let state: TransitionState = {
+        i,
+        j,
+        currentState: [...numbers],
+        previousState: [...numbers],
+        transitions: [],
+      };
+      while (j > 0 && numbers[j - 1] > temp) {
+        let localState: TransitionState = {
+          i,
+          j,
+          currentState: [...numbers],
+          previousState: [...numbers],
+          transitions: [],
+        };
+        numbers[j] = numbers[--j];
+        localState.currentState = [...numbers];
+        localState.j = j;
+        state.transitions!.push(localState);
       }
-
       numbers[j] = temp;
+      state.currentState = [...numbers];
+      state.j = j;
+      states.push(state);
     }
-    console.log(numbers);
   }
+}
+
+interface TransitionState {
+  previousState: number[];
+  currentState: number[];
+  i: number;
+  j: number;
+  transitions?: TransitionState[];
 }
