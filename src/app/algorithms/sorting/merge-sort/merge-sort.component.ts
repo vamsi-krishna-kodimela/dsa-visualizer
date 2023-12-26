@@ -8,14 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './merge-sort.component.scss',
 })
 export class MergeSortComponent implements OnInit {
+  states: TransitionState[] = [];
+
   ngOnInit(): void {
     const numbers: number[] = [15, 234, 2, 0, 23, 76, 45, 21];
     this.sort(numbers);
   }
 
   sort(numbers: number[]) {
-    let states: TransitionState[] = [];
-
     for (let i = 1; i < numbers.length; i++) {
       const temp: number = numbers[i];
       let j = i;
@@ -40,9 +40,10 @@ export class MergeSortComponent implements OnInit {
         state.transitions!.push(localState);
       }
       numbers[j] = temp;
+
       state.currentState = [...numbers];
       state.j = j;
-      states.push(state);
+      this.states.push(state);
     }
   }
 }

@@ -1,0 +1,20 @@
+@for (state of states; track $index) {
+<div>
+  <ul>
+    <li>
+      i={{ state.i }}, j={{ state.i }}, {{ state.previousState }} ->
+      {{ state.currentState }}
+    </li>
+    @for (transition of state.transitions; track $index) {
+    <ul>
+      <li>
+        i={{ transition.i }}, j={{ transition.j }},{{
+          transition.previousState
+        }}
+        -> {{ transition.currentState }}
+      </li>
+    </ul>
+    }
+  </ul>
+</div>
+}
